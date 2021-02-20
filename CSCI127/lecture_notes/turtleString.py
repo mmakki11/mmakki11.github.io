@@ -1,5 +1,5 @@
-#Author:    Katherine St. John
-#Date:      August 2014
+#Author:    MAHDI MAKKI
+#Date:      February 2021
 #A program that uses command strings to control turtle drawing
 #Modified by:  !YourNameHere!
 #Date:      !DateYouModifiedTheProgram!
@@ -23,7 +23,7 @@ for ch in commands:
     elif ch == 'v':          #lower pen
         tess.pendown()
     else:                   #for any other character, print an error message 
-        print("Error: do not know the command:", c)
+        print("Error: do not know the command:", ch)
 
 print("See graphics window for your image")
 myWin.exitonclick()         #Close the window when clicked
