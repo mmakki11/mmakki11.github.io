@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Begin Jekyll SEO tag v2.4.0 -->
+    <title>LAB 7</title>
+    <meta name="generator" content="Jekyll v3.7.3" />
+    <meta property="og:title" content="Mahdi Makki, Hunter College" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="canonical" href="https://mmakki11.github.io/" />
+    <meta property="og:url" content="https://mmakki11.github.io/" />
+    <meta property="og:site_name" content="mmakki11.github.io" />
+    <script type="application/ld+json">
+      {
+        "name": "mmakki11.github.io",
+        "@type": "WebSite",
+        "url": "https://mmakki11.github.io/",
+        "headline": "Mahdi Makki, Hunter College",
+        "@context": "http://schema.org"
+      }
+    </script>
+    <!-- End Jekyll SEO tag -->
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400"
+      rel="stylesheet"
+    />
+
+    <!-- MathJax -->
+    <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script>
+
+    <!--   <link crossorigin="anonymous" media="all" integrity="sha512-Z0JAar9+DkI1NjGVdZr3GivARUgJtA0o2eHlTv7Ou2gshR5awWVf8QGsq11Ns9ZxQLEs+G5/SuARmvpOLMzulw==" rel="stylesheet" href="https://assets-cdn.github.com/assets/frameworks-95aff0b550d3fe338b645a4deebdcb1b.css" />
+    -->
+    <!--   <link crossorigin="anonymous" media="all" integrity="sha512-yv+kWn8ewbavFKfvLZifQplJ0chJ6H894rDwGVvn0LtaG80VxAQmPt8pRMMOSlGNSiPwZEDSVzZjyOOiVe0eyA==" rel="stylesheet" href="https://assets-cdn.github.com/assets/github-37504d684728c80db863d719b4ac6781.css" />
+    -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      <style>
+        table {
+          border-collapse: collapse;
+        }
+        table,
+        td,
+        th {
+          text-align: left;
+          padding: 8px;
+          padding-bottom: 6px;
+          border: 1px solid #dee1e4;
+        }
+        tr:nth-child(even) {
+          background-color: #fafafa;
+        }
+        tr:nth-child(odd) {
+          background-color: #ffffff;
+        }
+        hr.style-six {
+          border: 0;
+          height: 0;
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        a:link {
+          text-decoration: none;
+        }
+        a:visited {
+          text-decoration: none;
+          color: blue;
+        }
+        a:hover {
+          text-decoration: none;
+        }
+        a:active {
+          text-decoration: none;
+        }
+      </style>
+
+      <h2 id="lab-7">LAB 7</h2>
+
+      <p>
+        Today’s lab will focus on open data, using main(), and using Python from
+        the command line.
+      </p>
+
+      <p>
+        Software tools needed: web browser and Python IDLE programming
+        environment with the pandas and matplotlib packages installed.
+      </p>
+
+      <h3 id="in-class-quiz">In-class Quiz</h3>
+
+      <p>
+        During lab, there is a <a href="quizzes.html">quiz</a>. The password to
+        access the quiz will be given during lab. To complete the quiz, log on
+        to Blackboard (see <a href="lab_01.html">Lab 1</a> for details on using
+        Blackboard).
+      </p>
+
+      <h3 id="using-python-gradescope-and-blackboard">
+        Using Python, Gradescope, and Blackboard
+      </h3>
+
+      <p>
+        See <a href="lab_01.html">Lab 1</a> for details on using Python,
+        Gradescope, and Blackboard.
+      </p>
+
+      <h3 id="using-nyc-opendata">Using NYC OpenData</h3>
+
+      <p>
+        Much of the data collected by city agencies is publicly available at
+        <a href="http://opendata.cityofnewyork.us">NYC Open Data</a>. Let’s use
+        pandas to plot some data from NYC OpenData.
+      </p>
+
+      <p>
+        <img src="images/shelterTotal.png" alt="" /><br />
+        (Totals for 2015-2016)
+      </p>
+
+      <p>
+        We’ll start with data that has the daily number of families and
+        individuals residing in the Department of Homeless Services (DHS)
+        shelter system:
+      </p>
+
+      <ul>
+        <li>
+          <a
+            href="https://data.cityofnewyork.us/Social-Services/DHS-Daily-Report/k46n-sa2m"
+            >https://data.cityofnewyork.us/Social-Services/DHS-Daily-Report/k46n-sa2m</a
+          >
+        </li>
+      </ul>
+
+      <p>
+        Click on the “Explore Data/View Data” button. To keep the data set from
+        being very large (and avoid some missing values in 2014), we are going
+        filter the data to be all counts after January 1, 2017. To do this:
+      </p>
+
+      <ul>
+        <li>Click on the “Filter” button.</li>
+        <li>
+          On the menu that pops us, click on “Add a New Filter Condition”.
+        </li>
+        <li>Choose “Date of Census” but change the “is” to be “is after”.</li>
+        <li>
+          Click in the box below and a calendar will pop up. Highlight January
+          1, 2017.
+        </li>
+        <li>Click the check box to the left of the data.</li>
+        <li>
+          It will take a few seconds (it’s a large file) but the rows on the
+          left will be filtered to be all counts after January 1, 2017.
+        </li>
+      </ul>
+
+      <p>To download the file,</p>
+
+      <ul>
+        <li>Click on the “Export” button.</li>
+        <li>Under “Download”, choose “CSV”.</li>
+        <li>
+          The download will begin automatically (files are usually stored in
+          “Downloads” folder).
+        </li>
+      </ul>
+
+      <p>
+        Move your CSV file to the directory that you save your programs. Open
+        with Excel (or your favorite spreadsheet program) to make sure it
+        downloaded correctly. Look at the names of the columns since those will
+        correspond to series we can plot.
+      </p>
+
+      <p>Now, we can write a (short) program to display daily counts:</p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>import pandas as pd
+import matplotlib.pyplot as plt
+
+homeless = pd.read_csv("DHS_Daily_Report.csv")
+homeless.plot(x = "Date of Census", y = "Total Individuals in Shelter")
+plt.show()
+</code></pre>
+        </div>
+      </div>
+
+      <p>Save your program and try on your dataset.</p>
+
+      <h4 id="challenges">Challenges</h4>
+
+      <ul>
+        <li>
+          What happens if you leave off the y = “Total Individuals in Shelter”?
+        </li>
+        <li>
+          Display a plot that shows the fraction of the total population that is
+          familes, over time. Is it increasing or decreasing?
+        </li>
+        <li>
+          How can you save your plot to file? (Hint: See
+          <a href="lab_06.html">Lab 6</a>.)
+        </li>
+      </ul>
+
+      <p>See the <a href="assignments.html">Programming Problem List</a>.</p>
+
+      <h3 id="main">
+        <code class="language-plaintext highlighter-rouge">main()</code>
+      </h3>
+
+      <p>
+        Python allows you to write programs as scripts: basically, a list of
+        commands that are executed one after the other. You can also organize
+        the programs in functions, which groups commands together that can be
+        reused. Many programming languages (like C++ or Java) require that your
+        programs be organized in functions.
+      </p>
+
+      <p>
+        To define function in Python, we use the def command, which has the
+        basic form:
+      </p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>def myFunction(input1, input2, ...):
+    command1
+    command2 
+    ...
+</code></pre>
+        </div>
+      </div>
+
+      <p>
+        Note that everything indented below the def line is considered part of
+        the function. When you type the function name (followed by parenthesis),
+        it calls (or “invokes”) the function, which means it executes all the
+        commands, one after another, that are part of the function.
+      </p>
+
+      <p>
+        Let’s rewrite our first program, using functions. By tradition (and
+        since it matches the naming protoccol of C &amp; C++), we will call our
+        function main() (see
+        <a
+          href="https://interactivepython.org/runestone/static/thinkcspy/Functions/mainfunction.html"
+          >Section 6.7: Using a Main Function</a
+        >):
+      </p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>#Name:  your name here
+#Date:  October 2017
+#This program, uses functions, says hello to the world!
+
+def main():
+    print("Hello, World!") 
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+        </div>
+      </div>
+
+      <p>
+        In Python, we have the option of running our programs as a standalone
+        program, or included as module as part of another program. Since it’s
+        common to do either, we include the last two lines of the file, which
+        say if the program is being run directly (which we can test to see if
+        the variable
+        <code class="language-plaintext highlighter-rouge">__name__</code> that
+        is set by Python is
+        <code class="language-plaintext highlighter-rouge">__main__</code>),
+        then we call
+        <code class="language-plaintext highlighter-rouge">main()</code>. If
+        it’s not, then the file is being included in something else, and leaves
+        it to that program to call it.
+      </p>
+
+      <p>Save your program and try running it in IDLE.</p>
+
+      <p>
+        Now, at the prompt (the window with the lines beginning with »&gt;),
+        type <code class="language-plaintext highlighter-rouge">main()</code>.
+        This calls the function directly. Note that calling the function either
+        way results in the same actions: the commands inside
+        <code class="language-plaintext highlighter-rouge">main()</code> are
+        executed.
+      </p>
+
+      <p>
+        When you have a running version, see the
+        <a href="assignments.html">Programming Problem List</a>.
+      </p>
+
+      <h3 id="using-python-from-the-command-line-interface">
+        Using Python from the Command Line Interface
+      </h3>
+
+      <p>
+        In addition to IDLE (and other development environments with graphical
+        interfaces), Python can also be used directly from the command line. In
+        fact, this is what the grading scripts do to evaluate your programs,
+        since Gradescope uses a server in the cloud and does not have a graphics
+        window.
+      </p>
+
+      <p>
+        To start, we need a command line interface (aka a terminal window). To
+        launch the terminal, click on the terminal window icon in the left menu,
+        or go to search option in the upper left corner and type and then open
+        terminal.
+      </p>
+
+      <p>
+        In <a href="lab_01.html">Lab 1</a>, we launched IDLE from the terminal
+        by typing:
+      </p>
+
+      <p>idle</p>
+
+      <p>
+        We can use Python in a similar fashion. In a terminal window, change
+        directories to where you stored your hello program above (see
+        <a href="lab_04.html">Lab 4</a> for changing directories at the command
+        line).
+      </p>
+
+      <p>
+        Let’s run your hello program from the command line. If your program is
+        called hello.py, you would type at the command line:
+      </p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>python hello.py
+</code></pre>
+        </div>
+      </div>
+
+      <p>
+        Notice that the output goes directly to the terminal window. Try running
+        other programs you have written from the command line.
+      </p>
+
+      <h3 id="whats-next">What’s Next?</h3>
+
+      <p>
+        If you finish the lab early, now is a great time to get a head start on
+        the programming problems due early next week. There’s instructors to
+        help you, and you already have Python up and running. The
+        <a href="assignments.html">Programming Problem List</a> has problem
+        descriptions, suggested reading, and due dates next to each problem.
+      </p>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js"
+      integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      anchors.add();
+    </script>
+  </body>
+</html>
