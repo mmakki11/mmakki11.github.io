@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+  <title>LAB 1</title>
+  <meta name="generator" content="Jekyll v3.7.3" />
+  <meta property="og:title" content="Mahdi Makki, Hunter College" />
+  <meta property="og:locale" content="en_US" />
+  <link rel="canonical" href="https://mmakki11.github.io/" />
+  <meta property="og:url" content="https://mmakki11.github.io/" />
+  <meta property="og:site_name" content="mmakki11.github.io" />
+  <script type="application/ld+json">
+      {
+        "name": "mmakki11.github.io",
+        "@type": "WebSite",
+        "url": "https://mmakki11.github.io/",
+        "headline": "Mahdi Makki, Hunter College",
+        "@context": "http://schema.org"
+      }
+    </script>
+  <!-- End Jekyll SEO tag -->
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400" rel="stylesheet" />
+
+  <!-- MathJax -->
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  <!--   <link crossorigin="anonymous" media="all" integrity="sha512-Z0JAar9+DkI1NjGVdZr3GivARUgJtA0o2eHlTv7Ou2gshR5awWVf8QGsq11Ns9ZxQLEs+G5/SuARmvpOLMzulw==" rel="stylesheet" href="https://assets-cdn.github.com/assets/frameworks-95aff0b550d3fe338b645a4deebdcb1b.css" />
+    -->
+  <!--   <link crossorigin="anonymous" media="all" integrity="sha512-yv+kWn8ewbavFKfvLZifQplJ0chJ6H894rDwGVvn0LtaG80VxAQmPt8pRMMOSlGNSiPwZEDSVzZjyOOiVe0eyA==" rel="stylesheet" href="https://assets-cdn.github.com/assets/github-37504d684728c80db863d719b4ac6781.css" />
+    -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="container-lg px-3 my-5 markdown-body">
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+
+      table,
+      td,
+      th {
+        text-align: left;
+        padding: 8px;
+        padding-bottom: 6px;
+        border: 1px solid #dee1e4;
+      }
+
+      tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      tr:nth-child(odd) {
+        background-color: #ffffff;
+      }
+
+      hr.style-six {
+        border: 0;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+
+      a:visited {
+        text-decoration: none;
+        color: blue;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
+
+      a:active {
+        text-decoration: none;
+      }
+    </style>
+
+    <h2 id="lab-1">LAB 1</h2>
+
+    <p>
+      Today’s lab will focus on using the gradescope &amp; Blackboard systems
+      and simple programs in Python.
+    </p>
+
+    <p>
+      Software tools needed: web browser and Python IDLE programming
+      environment.
+    </p>
+
+
+    <h3 id="using-blackboard">Using Blackboard</h3>
+
+    <p>
+      This course will use the on-line Blackboard system for in-class quizzes
+      and posting grades. Blackboard should be accessible through your CUNY
+      First account (see Hunter
+      <a href="http://www.hunter.cuny.edu/it/blackboard/blackboard-information-page">ICIT Blackboard page</a>
+      for directions on using the system and how to get help).
+    </p>
+
+    <p>
+      Quizzes are done via the Content menu (left hand side of Home screen).
+      I will provide the password for the quiz.
+    </p>
+
+
+
+    <h3 id="in-class-quiz">In-class Quiz</h3>
+
+    <p>
+      During lab, there is a quiz on the academic integrity policy of City
+      University of New York. The password to access the quiz will be given
+      during lab. To complete the quiz, log on to Blackboard.
+    </p>
+
+    <h3 id="using-python-on-your-computer">Using Python on Your Computer</h3>
+
+    <p>
+      The Python programming language and IDLE environment are freely
+      available for many platforms from
+      <a href="http://www.python.org">python.org</a> or
+      <a href="https://docs.continuum.io/anaconda/install/#detailed-installation-information">Anaconda</a>. For this
+      class, we are using <strong>Python 3</strong>. Many features of the
+      language (including the syntax of print statements) changed between the
+      second and third version, so, you must use the Python 3 for submitting
+      programs.
+    </p>
+
+
+
+    <p>
+      If you have a Mac or Windows computer, the easiest installation is
+      <a href="https://docs.continuum.io/anaconda/install/#detailed-installation-information">Anaconda</a>. When given
+      the choice, choose to “Install for me only” (this avoids
+      some odd permission problems that occur when choosing the install for
+      everyone).
+    </p>
+
+    <p>
+      Almost all the packages we will use are automatically included in the
+      Anaconda default installation. The two that are not, image and folium,
+      can be installed later. We won’t need these
+      immediately, so, you can wait on installing them.
+    </p>
+
+
+  </div>
+
+  <h3 id="using-python">Using Python</h3>
+
+  <p>
+    We will be using the IDLE programming environment for Python, since it
+    is very simple and comes with all distributions of Python
+  </p>
+
+  <p>To launch IDLE:</p>
+
+  <ul>
+    <li>
+      Search for IDLE on your machine, then open it
+    </li>
+    <li>A new window will launch for IDLE.</li>
+    <li>
+      <p>To see that it works, type at the IDLE prompt:</p>
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>print("Hello, World!")
+</code></pre>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <p>
+    let’s use a text window, where we can save our program for later and
+    submit it to Gradescope (this is the basis of the first program).
+  </p>
+
+  <ol>
+    <li>
+      First, open up a text window: on the menu bar, choose “File” and from
+      that menu, choose “New File”.
+    </li>
+    <li>
+      <p>In that window, type:</p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>#Name:  ...your name here...
+#Date: January 30, 2021
+#This program prints: Hello, World!
+
+print("Hello, World!")
+</code></pre>
+        </div>
+      </div>
+    </li>
+    <li>
+      Save the program (using the “Save” under the “File” menu). When you
+      save it, name it something that you will be remember for the future
+      and end it in .py. For example, ps1.py.
+    </li>
+    <li>Run your program (using the “Run Module” from the “Run” menu).</li>
+    <li>
+      If it prints “Hello, World!” to the screen, then log into Gradescope
+      (see notes below):
+      <ul>
+        <li>On the left hand menu, choose “Assignments”.</li>
+        <li>
+          From the list, choose “1. Hello, World!”. In the file upload, drag
+          over the .py file you just created and ran, and
+        </li>
+        <li>click “Submit”.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h3 id="using-gradescope">Using Gradescope</h3>
+
+  <p>
+    This course will use the on-line
+    <a href="http://www.gradescope.com">gradescope</a> system for submitting
+    work electronically. An email invitation to the course was sent to your
+    email address (we used the one saved for you on CUNYFirst as of Friday,
+    29 January).
+  </p>
+
+  <ul>
+    <li>Open your email and click the links to set up your account.</li>
+    <li>
+      Once you have your account, click on the “Assignments” menu (left hand
+      side of window), and then choose the assignment “1. Hello, World.”
+    </li>
+    <li>Drag and drop your program onto the submit box.</li>
+    <li>
+      Each program can be submitted multiple times up to the deadline.
+    </li>
+  </ul>
+
+  <h3 id="more-python-turtles">More Python: Turtles</h3>
+
+  <p>
+    Now that you have just submitted your first program, let’s try some
+    other Python commands. Here’s a quick demo (click the triangle to run
+    the program):
+  </p>
+
+  <iframe src="https://trinket.io/embed/python/22709f8349" width="80%" height="400" frameborder="0" marginwidth="0"
+    marginheight="0" allowfullscreen=""></iframe>
+  <p><br /></p>
+
+  <p>Now, let’s write the same program in IDLE:</p>
+
+  <ol>
+    <li>Open up a new file window in IDLE (“File &gt; New File”).</li>
+    <li>
+      <p>Type into your window:</p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>import turtle
+thomasH = turtle.Turtle()
+for i in range(4):
+  thomasH.forward(100)
+  thomasH.right(90)
+</code></pre>
+        </div>
+      </div>
+    </li>
+    <li>
+      Save your program (“File &gt; Save”).<br />
+      <em>Note: Choose a name for your file that is
+        <strong>not</strong> turtle.py. When executing the “import turtle”
+        statement, the computer first looks in the folder where the file is
+        saved for the turtle module and then in the libraries (and other
+        places on the path). So, it thinks the module is itself, causing all
+        kinds of errors. To avoid this, name your program something like
+        “myTurtle.py” or “program2.py”.</em>
+    </li>
+    <li>Run your program (using the “Run Module” from the “Run” menu).</li>
+    <li>
+      Change your program so that it draws a octagon (8-sided polygon).
+    </li>
+    <li>
+      <p>
+        Test your program and modify until you have a octagon. When you do,
+        add comments at the top of your program:
+      </p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>#Name:  ...your name here...
+#Date: January 30, 2021
+#This program draws a octagon.
+</code></pre>
+        </div>
+      </div>
+
+      <p>
+        Run your program after editing to make sure you do not have any
+        typos.
+      </p>
+    </li>
+    <li>
+      Log into Gradescope (see notes above). On the left hand menu, choose
+      “Assignments”. From the list, choose “2. Octagon”. In the file upload,
+      drag the .py file you just created and ran, and click “Submit”.
+    </li>
+  </ol>
+
+  <p>A quick overview of the parts of your second program:</p>
+
+  <ul>
+    <li>
+      Lines that begin with # are ignored by Python– they are comments for
+      you to remember what you did and others to follow what’s going on.
+    </li>
+    <li>
+      The line import turtle loads in the built-in turtle graphics drawing
+      package. It’s part of all versions of Python but, to keep programs
+      small, is not included unless you explicitly import it. In addition to
+      built-in packages, there are many others that have been written to
+      make Python more useful. We will use both kinds as the semester
+      progresses.
+    </li>
+    <li>
+      The line tia = turtle.Turtle() creates a turtle object called tia (you
+      can call your turtles almost any combination of letters (and
+      underscores and numbers)– we used a name starting with “t” since
+      turtle starts with “t”).
+    </li>
+    <li>
+      The next line: for i in range(4): is the first part of a for-loop that
+      will repeat the commands indented beneath it 4 times.
+    </li>
+    <li>
+      The turtle class has many functions that you can use for your turtle.
+      The next two lines demonstrate two of them:
+      <ul>
+        <li>tia.forward(150) moves tia forward 150 steps.</li>
+        <li>tia.right(90) turns tia to the right 90 degrees.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3 id="more-turtle-commands">More Turtle Commands</h3>
+
+  <p>To review, we introduced the turtle commands:</p>
+
+  <ul>
+    <li>forward()</li>
+    <li>left()</li>
+    <li>right()</li>
+  </ul>
+
+  <p>
+    as well as importing the turtle package (import turtle) and creating
+    (“instantiating”) a turtle (thomasH = turtle.Turtle()).
+  </p>
+
+  <p>
+    There are many more turtles commands. Over the next couple of classes,
+    we will use those in the
+    <a href="http://interactivepython.org/courselib/static/thinkcspy/PythonTurtle/toctree.html">turtle chapter</a>
+    from the textbook. A
+    <a href="https://docs.python.org/3/library/turtle.html">complete list of turtle commands</a>
+    is part of the Python 3 documentation.
+  </p>
+
+  <h3 id="whats-next">What’s Next?</h3>
+
+  <p>
+    If you finish the lab early, now is a great time to get a head start on
+    the programming problems due next week. The
+    <a href="assignments.html">Programming Problem List</a> has problem
+    descriptions, suggested reading, and due dates next to each problem.
+  </p>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js"
+    integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+  <script>
+    anchors.add();
+  </script>
+</body>
+
+</html>
