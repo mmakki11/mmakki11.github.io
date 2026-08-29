@@ -5,9 +5,11 @@
 import turtle
 
 screen = turtle.Screen()
-screen.setup(800, 404)
+# Canvas size MUST match world_map.jpg (1000x500) so the background lines up:
+screen.setup(1000, 500)
 #Longitude is the x-axis (-180..180), latitude the y-axis (-90..90):
 screen.setworldcoordinates(-180, -90, 180, 90)
+screen.bgpic("world_map.jpg")     # equirectangular world map behind the points
 screen.tracer(0, 0)               # turn off animation so ~1,300 points plot fast
 
 teddy = turtle.Turtle()

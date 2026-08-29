@@ -121,6 +121,8 @@
       document.body.appendChild(ta);
     });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = "turtle-canvas";
+    // Let turtle bgpic("name.jpg") load an image file sitting next to this page.
+    Sk.TurtleGraphics.assets = function(name){ return name; };
 
     Sk.misceval.asyncToPromise(function() {
       return Sk.importMainWithBody("<stdin>", false, prog, true);
