@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Begin Jekyll SEO tag v2.4.0 -->
+    <title>LAB 11</title>
+    <meta name="generator" content="Jekyll v3.7.3" />
+    <meta property="og:title" content="Mahdi Makki, Hunter College" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="canonical" href="https://mmakki11.github.io/" />
+    <meta property="og:url" content="https://mmakki11.github.io/" />
+    <meta property="og:site_name" content="mmakki11.github.io" />
+    <script type="application/ld+json">
+      {
+        "name": "mmakki11.github.io",
+        "@type": "WebSite",
+        "url": "https://mmakki11.github.io/",
+        "headline": "Mahdi Makki, Hunter College",
+        "@context": "http://schema.org"
+      }
+    </script>
+    <!-- End Jekyll SEO tag -->
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400"
+      rel="stylesheet"
+    />
+
+    <!-- MathJax -->
+    <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script>
+
+    <!--   <link crossorigin="anonymous" media="all" integrity="sha512-Z0JAar9+DkI1NjGVdZr3GivARUgJtA0o2eHlTv7Ou2gshR5awWVf8QGsq11Ns9ZxQLEs+G5/SuARmvpOLMzulw==" rel="stylesheet" href="https://assets-cdn.github.com/assets/frameworks-95aff0b550d3fe338b645a4deebdcb1b.css" />
+    -->
+    <!--   <link crossorigin="anonymous" media="all" integrity="sha512-yv+kWn8ewbavFKfvLZifQplJ0chJ6H894rDwGVvn0LtaG80VxAQmPt8pRMMOSlGNSiPwZEDSVzZjyOOiVe0eyA==" rel="stylesheet" href="https://assets-cdn.github.com/assets/github-37504d684728c80db863d719b4ac6781.css" />
+    -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      <style>
+        table {
+          border-collapse: collapse;
+        }
+        table,
+        td,
+        th {
+          text-align: left;
+          padding: 8px;
+          padding-bottom: 6px;
+          border: 1px solid #dee1e4;
+        }
+        tr:nth-child(even) {
+          background-color: #fafafa;
+        }
+        tr:nth-child(odd) {
+          background-color: #ffffff;
+        }
+        hr.style-six {
+          border: 0;
+          height: 0;
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        a:link {
+          text-decoration: none;
+        }
+        a:visited {
+          text-decoration: none;
+          color: blue;
+        }
+        a:hover {
+          text-decoration: none;
+        }
+        a:active {
+          text-decoration: none;
+        }
+      </style>
+
+      <h2 id="lab-11">LAB 11</h2>
+      <hr />
+
+      <p>Today’s lab will introduce a simplified machine language.</p>
+
+      <p>
+        Software tools needed: web browser and a graphical editor, such as
+        gEdit.
+      </p>
+
+      <p>References:</p>
+
+      <ul>
+        <li>
+          <a href="http://rivoire.cs.sonoma.edu/cs351/wemips/" target="_blank"
+            >WeMIPS Emulator</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://chortle.ccsu.edu/assemblytutorial/Chapter-10/ass10_1.html"
+            target="_blank"
+            >MIPS Tutotrial</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://cs.gmu.edu/~setia/cs365-S02/class3.pdf"
+            target="_blank"
+            >Setia’s slides</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://en.wikibooks.org/wiki/MIPS_Assembly/Instruction_Formats"
+            target="_blank"
+            >Wikibooks</a
+          >
+        </li>
+      </ul>
+
+      <h3 id="in-class-quiz">In-class Quiz</h3>
+
+      <p>
+        During lab, there is a <a href="quizzes.html">quiz</a>. The password to
+        access the quiz will be given during lab. To complete the quiz, log on
+        to Blackboard (see <a href="lab_01.html">Lab 1</a> for details on using
+        Blackboard).
+      </p>
+
+      <h3 id="simplified-machine-language">Simplified Machine Language</h3>
+
+      <p>
+        In today’s lab, we will explore a programming language that is very “low
+        level” in that it maps very closely to the actual commands that are used
+        by the computer’s processor.
+      </p>
+
+      <p>
+        We will use an emulator,
+        <a href="http://rivoire.cs.sonoma.edu/cs351/wemips/" target="_blank"
+          >WeMIPS</a
+        >, to emulate what a machine-level language would do for a popular class
+        of computer processors, MIPS. Processors with MIPS are a Reduced
+        Instructor Set Computer (RISC), meaning they have fewer different types
+        of instructions that the processor knows (and thus fewer that have to be
+        implemented, leading to faster processors).
+      </p>
+
+      <p>Let’s start by looking at a program that will print “Hello World”:</p>
+
+      <p><img src="images/mipsHello.png" alt="" /></p>
+
+      <p>
+        If you would like to follow along, using the
+        <a href="http://rivoire.cs.sonoma.edu/cs351/wemips/" target="_blank"
+          >emulator</a
+        >, open the window and toggle the “Show/Hide Demos” button and then
+        click on the “Hello World” demo.
+      </p>
+
+      <p>
+        Just as we did with PythonTutor, we can “step” or go through the code
+        line-by-line to see what it does:
+      </p>
+
+      <ul>
+        <li>
+          The first line is a comment. Like in Python, everything after a ‘#’ on
+          a line is ignored by the simulator.
+        </li>
+        <li>
+          The next line says to add -13 to $sp, which stands for the stack
+          pointer. The stack is a region of memory where we can store
+          information (it is very common– more details in future computer
+          science courses).<br />
+          We are using 13, because to allow enough room to store the message
+          “Hello World” (plus a null character to signal the end of the string).
+        </li>
+        <li>
+          The next line, SB $t0, 0($sp) moves the number we stored to the
+          register $t0 to the stack pointer address (with 0 offset). Since it is
+          moving a byte of information, SB stands for “Store Byte”.
+        </li>
+        <li>
+          We repeat with each letter in our message, loading it to register $t0
+          and then moving the contents of that register to the next empty memory
+          location. This contninues until the entire message is loaded.
+        </li>
+        <li>
+          Next, we place 4 into the register $t0. That register is used to tell
+          the simulator what type of system call we would like to make. 4 is
+          used for printing strings.
+        </li>
+        <li>
+          Next, we place the location of the start of our message in $a0 (that’s
+          where the system looks for the location of the string to print).
+        </li>
+        <li>
+          Lastly, we call syscall. Since we have loaded 4 into $t0, it will
+          print whatever string starts at the memory location in $a0.
+        </li>
+        <li>
+          If the messages are not displaying, toggle to the “Log”. You will see
+          the message in green on the stack.
+        </li>
+      </ul>
+
+      <p>
+        Try changing the program in the WeMIPS window to print out “Mihi cura
+        futuri”. Once it does, copy the program into a text window:
+      </p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code>#YOUR NAME HERE
+#My first MIPS program that prints: Mihi cura futuri
+
+... put your machine language program here ....
+</code></pre>
+        </div>
+      </div>
+
+      <p>
+        and see the
+        <a href="assignments.html" target="_blank">Programming Problem List</a>.
+      </p>
+
+      <h4 id="loops-in-machine-language">Loops in Machine Language</h4>
+
+      <p>
+        To create loops in our machine language, we use two additional
+        instructions:
+      </p>
+
+      <ul>
+        <li>
+          <code class="language-plaintext highlighter-rouge">BEQ</code> or
+          “Branch When Equal” which, when two values are equal, lets you go to a
+          different part of the program (which you specify), and
+        </li>
+        <li>
+          <code class="language-plaintext highlighter-rouge">J</code> or “Jump”
+          which always go to a different part of the program, and is incredibly
+          useful for setting up loops.
+        </li>
+      </ul>
+
+      <p>
+        Here is a sample of setting up loops in the MIPS machine language (you
+        can copy it into the emulator to step through the code):
+      </p>
+
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre
+            class="highlight"
+          ><code>#Sample program that loops from 10 down to 0
+ADDI $s0, $zero, 10 #set s0 to 10
+ADDI $s1, $zero, 1  #use to decrement counter, $s0
+AGAIN: SUB $s0, $s0, $s1
+BEQ $s0, $zero, DONE
+J AGAIN
+DONE:  #To break out of the loop
+</code></pre>
+        </div>
+      </div>
+
+      <p>Here’s a translation of the code into pseudocode:</p>
+
+      <ol>
+        <li>
+          Set <code class="language-plaintext highlighter-rouge">$s0</code> to
+          10.
+        </li>
+        <li>
+          Set <code class="language-plaintext highlighter-rouge">$s1</code> to
+          1.
+        </li>
+        <li>
+          Subtract
+          <code class="language-plaintext highlighter-rouge">$s1</code> from
+          <code class="language-plaintext highlighter-rouge">$s0</code> and
+          store result in
+          <code class="language-plaintext highlighter-rouge">$s0</code> (i.e.
+          <code class="language-plaintext highlighter-rouge"
+            >$s0 = $s0 - $s1</code
+          >).
+        </li>
+        <li>
+          If
+          <code class="language-plaintext highlighter-rouge">$s0</code> equals
+          0, go to line 6.
+        </li>
+        <li>Else, go back to Line 3 and repeat.</li>
+        <li>Program ends here.</li>
+      </ol>
+
+      <p>
+        This program counts down from 10 to 0. How could you modify it to count
+        from 1 to 10? When you have it running, see the
+        <a href="assignments.html" target="_blank">Programming Problem List</a>.
+      </p>
+
+      <p>(Hint: store the value 10 in a register to use in the comparison)</p>
+
+      <h4 id="challenge">Challenge</h4>
+
+      <p><img src="images/mipsInteractive.png" alt="" /></p>
+
+      <p>
+        As a final machine language challenge, modify the “Interactive” demo
+        (the first lines are in the image above) to use the
+        <em>current year</em> when computing the ages. When you have it running,
+        see the
+        <a href="assignments.html" target="_blank">Programming Problem List</a>.
+      </p>
+
+      <h3 id="a-note-on-grading-simplified-machine-language">
+        A Note on Grading Simplified Machine Language
+      </h3>
+
+      <p>
+        We’re going to use just a few commands that move values into registers
+        (physical memory locations), do simple arithmetic, and jump (or branch)
+        to another part of our program.
+      </p>
+
+      <p>Explain stack pointer</p>
+
+      <p>To print out numbers from 10 to 0, loop with sub, plus print</p>
+
+      <p>
+        There are many commands that can be used in the full MIPS machine
+        language. We are working with only a few of them:
+      </p>
+
+      <blockquote>
+        <p>
+          <code class="language-plaintext highlighter-rouge">ADD</code>,
+          <code class="language-plaintext highlighter-rouge">ADDI</code>,
+          <code class="language-plaintext highlighter-rouge">ADDIU</code>,
+          <code class="language-plaintext highlighter-rouge">BEQ</code>,
+          <code class="language-plaintext highlighter-rouge">J</code>,
+          <code class="language-plaintext highlighter-rouge">SB</code>,
+          <code class="language-plaintext highlighter-rouge">SUB</code>,
+          <code class="language-plaintext highlighter-rouge">SUBU</code>,
+          <code class="language-plaintext highlighter-rouge">syscall</code>
+        </p>
+      </blockquote>
+
+      <p>
+        As such, the grading script only recognizes the commands above and the
+        ‘#’ style comments. Anything else will confuse it greatly.
+      </p>
+
+      <p>The general format for simplified machine language programs is:</p>
+
+      <p>
+        #YOUR NAME HERE #My first MIPS program that prints: Mihi cura futuri
+      </p>
+
+      <p>Code goes here…</p>
+
+      <p>To submit your program for grading:</p>
+
+      <ul>
+        <li>
+          Run and debug your program using
+          <a href="http://rivoire.cs.sonoma.edu/cs351/wemips/" target="_blank"
+            >WeMIPS</a
+          >
+        </li>
+        <li>
+          Once it works, copy the text into a text editor and save. Make sure
+          your file has a comment at the top with your name.
+        </li>
+        <li>
+          Drag and drop the text file onto the
+          <a href="http://gradescope.com" target="_blank">gradescope</a> page
+          for the given program.
+        </li>
+      </ul>
+
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js"
+      integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      anchors.add();
+    </script>
+  </body>
+</html>
