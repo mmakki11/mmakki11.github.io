@@ -1,5 +1,4 @@
 # Source: index.html week 3 — "Color Challenges"
-# Original (retiring 2026-08-31): https://trinket.io/python/8e9edc0a1b
 import turtle
 teddy = turtle.Turtle()
 

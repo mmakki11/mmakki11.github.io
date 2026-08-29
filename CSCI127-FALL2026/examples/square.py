@@ -1,5 +1,4 @@
 # Source: lab_01 — "Draws a square"
-# Original (retiring 2026-08-31): https://trinket.io/python/22709f8349
 #Draws a square, using the turtle module
 
 #Import the turtle commands to use below:

@@ -1,5 +1,4 @@
 # Source: lab_10 — bounded random walk (stops when turtle leaves the -50..50 box)
-# Original (retiring 2026-08-31): https://trinket.io/python/6738c47304
 import turtle
 import random
 

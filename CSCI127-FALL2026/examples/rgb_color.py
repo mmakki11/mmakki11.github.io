@@ -1,5 +1,4 @@
 # Source: lab_03 — "Color by red-green-blue (RGB)"
-# Original (retiring 2026-08-31): https://trinket.io/python/11f1644654
 # Note: uses 0-255 RGB values, so requires turtle.colormode(255) in standard
 #       CPython. (Trinket defaulted to 255-mode.)
 #Color by red-green-blue (RGB):

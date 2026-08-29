@@ -1,5 +1,4 @@
 # Source: lab_03 — "multi-colored turtles"
-# Original (retiring 2026-08-31): https://trinket.io/python/b594e53e4a
 #A program that uses multi-colored turtles
 import turtle
 

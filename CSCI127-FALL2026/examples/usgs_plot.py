@@ -1,5 +1,4 @@
 # Source: lab_09 — "Plotting USGS data" (plots two cities on a world map)
-# Original (retiring 2026-08-31): https://trinket.io/python/7705126110
 # REQUIRES ASSET: map3.jpg (world map background, 946x502)
 # Plotting USGS data
 

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSCI 127 — Python / Turtle Runner</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600" rel="stylesheet" />
+  <!-- Skulpt: Python that runs entirely in the browser (vendored locally, no external service) -->
+  <script src="skulpt/skulpt.min.js" type="text/javascript"></script>
+  <script src="skulpt/skulpt-stdlib.js" type="text/javascript"></script>
+  <style>
+    :root { --edge:#dee1e4; --bg:#ffffff; --fg:#1a1a1a; --accent:#4b2e83; --muted:#666; }
+    * { box-sizing: border-box; }
+    body { font-family: Poppins, Arial, sans-serif; color: var(--fg); background: var(--bg);
+           margin: 0; padding: 18px; }
+    header { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+    h1 { font-size: 18px; margin: 0; }
+    .file { font-family: monospace; color: var(--accent); font-size: 15px; }
+    a { color: var(--accent); }
+    .bar { margin: 10px 0; }
+    button { font-family: Poppins, Arial, sans-serif; font-size: 14px; cursor: pointer;
+             border: 1px solid var(--accent); background: var(--accent); color: #fff;
+             padding: 7px 16px; border-radius: 6px; }
+    button.secondary { background: #fff; color: var(--accent); }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 800px) { .wrap { grid-template-columns: 1fr; } }
+    textarea { width: 100%; height: 420px; font-family: monospace; font-size: 13px; line-height: 1.45;
+               border: 1px solid var(--edge); border-radius: 6px; padding: 10px; resize: vertical;
+               background: #fbfbfd; }
+    .panel { border: 1px solid var(--edge); border-radius: 6px; padding: 10px; min-height: 200px; }
+    .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+                margin: 0 0 8px; }
+    #turtle-canvas { width: 100%; min-height: 300px; }
+    #output { white-space: pre-wrap; font-family: monospace; font-size: 13px; color: #222; }
+    .err { color: #b00020; }
+    .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CSCI 127 Runner</h1>
+    <span class="file" id="filename">(no file)</span>
+    <span style="margin-left:auto"><a href="../index.html">&larr; Back to course page</a></span>
+  </header>
+
+  <div class="bar">
+    <button id="run">&#9654; Run</button>
+    <button id="reset" class="secondary">Reset code</button>
+    <span class="hint">Runs Python in your browser (Skulpt). Edit the code and re-run — nothing is sent to any server.</span>
+  </div>
+
+  <div class="wrap">
+    <div>
+      <textarea id="code" spellcheck="false" aria-label="Python code"></textarea>
+    </div>
+    <div>
+      <div class="panel">
+        <h2>Turtle</h2>
+        <div id="turtle-canvas"></div>
+      </div>
+      <div class="panel" style="margin-top:12px;">
+        <h2>Output</h2>
+        <div id="output"></div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+  var params = new URLSearchParams(location.search);
+  var file = params.get("file") || "";
+  var dataFiles = (params.get("data") || "").split(",").map(function(s){return s.trim();}).filter(Boolean);
+  var originalCode = "";
+  var dataCache = {};   // filename -> text contents (for open() inside Python)
+
+  document.getElementById("filename").textContent = file || "(no file)";
+  document.title = "CSCI 127 — " + (file || "Runner");
+
+  function out(text) { document.getElementById("output").innerHTML += Sk.ffi.remapToJs(text); }
+
+  // Skulpt's read: serve vendored stdlib modules, else serve a data file we preloaded.
+  function builtinRead(x) {
+    if (Sk.builtinFiles !== undefined && Sk.builtinFiles["files"][x] !== undefined) {
+      return Sk.builtinFiles["files"][x];
+    }
+    if (dataCache[x] !== undefined) { return dataCache[x]; }
+    throw "File not found: '" + x + "'";
+  }
+
+  function fetchText(url) {
+    return fetch(url).then(function(r){
+      if (!r.ok) throw new Error("HTTP " + r.status + " for " + url);
+      return r.text();
+    });
+  }
+
+  function runCode() {
+    var outEl = document.getElementById("output");
+    outEl.innerHTML = "";
+    outEl.classList.remove("err");
+    var target = document.getElementById("turtle-canvas");
+    target.innerHTML = "";
+    var prog = document.getElementById("code").value;
+
+    Sk.configure({
+      output: out,
+      read: builtinRead,
+      inputfun: function(p){ return window.prompt(p || "Input:"); },
+      inputfunTakesPrompt: true,
+      __future__: Sk.python3
+    });
+    // Make any data files (e.g. a CSV) visible to Python's open().
+    // In the browser, Skulpt reads open("name") from a DOM element whose id == "name",
+    // so stash each data file in a hidden <textarea> with that id.
+    Object.keys(dataCache).forEach(function(name){
+      var existing = document.getElementById(name);
+      if (existing) { existing.value = dataCache[name]; return; }
+      var ta = document.createElement("textarea");
+      ta.id = name;
+      ta.style.display = "none";
+      ta.value = dataCache[name];
+      document.body.appendChild(ta);
+    });
+    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = "turtle-canvas";
+
+    Sk.misceval.asyncToPromise(function() {
+      return Sk.importMainWithBody("<stdin>", false, prog, true);
+    }).then(function() {
+      // done
+    }, function(err) {
+      outEl.classList.add("err");
+      outEl.innerHTML += "\n" + err.toString();
+    });
+  }
+
+  document.getElementById("run").addEventListener("click", runCode);
+  document.getElementById("reset").addEventListener("click", function(){
+    document.getElementById("code").value = originalCode;
+  });
+
+  // Load the example source (and any data files it needs), then show it.
+  (function init(){
+    if (!file) {
+      document.getElementById("code").value = "# Add ?file=hexagon.py to the URL to load an example.";
+      return;
+    }
+    var jobs = [ fetchText(file).then(function(t){ originalCode = t; document.getElementById("code").value = t; }) ];
+    dataFiles.forEach(function(df){
+      jobs.push(fetchText(df).then(function(t){ dataCache[df] = t; }));
+    });
+    Promise.all(jobs).catch(function(e){
+      var outEl = document.getElementById("output");
+      outEl.classList.add("err");
+      outEl.textContent = "Could not load: " + e.message;
+    });
+  })();
+</script>
+</body>
+</html>

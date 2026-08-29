@@ -1,5 +1,4 @@
 # Source: index.html week 10 ("Random Walk") and lab_10 ("Random Walk")
-# Original (retiring 2026-08-31): https://trinket.io/python/ab6cddc880
 import turtle
 import random
 

@@ -1,39 +1,64 @@
-# Turtle example backups (recovered from trinket.io)
+# Example programs + in-browser runner
 
-trinket.io is **shutting down on 2026-08-31**. All Python source that used to live
-on trinket has been recovered and saved here so it is never lost. These are the
-`.py` files behind every `trinket.io` link on the CSCI 127 site.
+trinket.io (which used to host the live turtle demos) **shuts down 2026-08-31**.
+This folder replaces it with a **self-hosted runner** so the demos keep working
+with no dependency on any outside service.
 
-## Examples
+## The runner
 
-| File | Used on | Original trinket link | Extra assets needed |
-|------|---------|-----------------------|---------------------|
-| `hexagon.py` | index.html, week 1 (Hexagon example) | trinket.io/python/88a94dfc75 | — |
-| `hexagon_stamp.py` | index.html, week 1 (Fancier hexagon) | trinket.io/python/a3bede6db8 | — |
-| `color_dots.py` | index.html, week 3 (Color Challenges) | trinket.io/python/8e9edc0a1b | — |
-| `random_walk.py` | index.html, week 10 + lab_10 (Random Walk) | trinket.io/python/ab6cddc880 | — |
-| `quakes_map.py` | index.html, week 13 (Turtle Quakes Demo) | trinket.io/python/c06d30262b | `mapNASA.jpg`, `allWeek2017Jan17.csv` |
-| `square.py` | lab_01 (Draws a square) | trinket.io/python/22709f8349 | — |
-| `two_turtles.py` | lab_03 (multi-colored turtles) | trinket.io/python/b594e53e4a | — |
-| `rgb_color.py` | lab_03 (RGB color) | trinket.io/python/11f1644654 | needs `colormode(255)` in CPython |
-| `usgs_plot.py` | lab_09 (Plotting USGS data) | trinket.io/python/7705126110 | `map3.jpg` |
-| `random_walk_bounded.py` | lab_10 (bounded random walk) | trinket.io/python/6738c47304 | — |
+`run.html` runs Python — including `turtle` graphics — entirely in the browser
+using **Skulpt** (vendored under `skulpt/`, so nothing is fetched from a CDN).
+Link to an example like:
 
-## Notes / gotchas
+```
+examples/run.html?file=hexagon.py
+examples/run.html?file=quakes_map_runner.py&data=allWeek2017Jan17.csv
+```
 
-- **`quakes_map.py` is Python 2** (`print "..."`). Convert to `print(...)` for
-  Python 3 or any browser runner.
-- The two mapping demos (`quakes_map.py`, `usgs_plot.py`) need a background image
-  and, for the quakes one, the USGS CSV. Those asset files were NOT yet pulled off
-  trinket — they can be re-downloaded from USGS, or extracted from the trinket
-  before 2026-08-31. The `.py` code (the irreplaceable part) is fully saved.
-- `rgb_color.py` uses 0–255 color values; trinket defaulted to that. In standard
-  Python add `turtle.colormode(255)` after `import turtle`.
+- `file=` — the `.py` program to load (shown in an editable box; students can tweak and re-run).
+- `data=` — optional comma-separated data file(s) the program `open()`s (e.g. a CSV).
 
-## Links that are NOT at risk
+Nothing is sent to a server; it all runs client-side.
 
-- **pythontutor.com** (29 links on index.html): the full program is encoded inside
-  the URL itself, so the code can never be lost even if the site goes away.
-- **onlinegdb.com** (10 C++ links on index.html): a separate, still-operating
-  service — but the same "code lives on their server" risk applies. Worth backing
-  up the same way if you want to be safe.
+## Turtle examples (recovered from trinket, now run in `run.html`)
+
+| File | Used on | Live link on the site? |
+|------|---------|------------------------|
+| `hexagon.py` | index.html wk 1 (Hexagon example) | ✅ repointed |
+| `hexagon_stamp.py` | index.html wk 1 (Fancier hexagon) | ✅ repointed |
+| `color_dots.py` | index.html wk 3 (Color Challenges) | ✅ repointed |
+| `random_walk.py` | index.html wk 10 + lab_10 (Random Walk) | ✅ repointed |
+| `quakes_map_runner.py` | index.html wk 13 (Turtle Quakes Demo) | ✅ repointed (loads `allWeek2017Jan17.csv`) |
+| `quakes_map.py` | faithful original of the above (Python 2, needs a map image) | backup only |
+| `square.py` | lab_01 (Draws a square) | in a removed lab — repoint when restored |
+| `two_turtles.py` | lab_03 (multi-colored turtles) | in a removed lab |
+| `rgb_color.py` | lab_03 (RGB color) | in a removed lab |
+| `usgs_plot.py` | lab_09 (Plotting USGS data, needs `map3.jpg`) | in a removed lab |
+| `random_walk_bounded.py` | lab_10 (bounded random walk) | in a removed lab |
+
+When you restore lab_01/03/09/10 for a future semester, point their turtle links at
+`run.html?file=<name>.py` the same way.
+
+### Notes
+- `quakes_map_runner.py` is a Python-3, self-contained version of `quakes_map.py`
+  (fixes the Python-2 `print`, turns off turtle animation so ~1,300 points plot in
+  ~2s, and drops the background-map image so it needs no extra asset). The original
+  `quakes_map.py` is kept as a faithful backup.
+- `allWeek2017Jan17.csv` is the real USGS "past week" earthquake feed from Jan 2017
+  (1,365 quakes) that the quakes demo reads.
+- `usgs_plot.py` (lab_09) still expects a `map3.jpg` background. If you restore that
+  lab, either add an equirectangular world map named `map3.jpg` here, or drop the
+  `bgpic(...)` line as was done for the quakes runner.
+
+## C++ examples (`cpp/`)
+
+The 10 `.cpp` files are the C++ programs that were hosted on **onlinegdb.com**
+(index.html weeks 12–13). onlinegdb is not shutting down, so those links are left as
+they are — these files are just a safety backup. Skulpt runs Python only, so the
+runner does not execute C++.
+
+## pythontutor examples (`pythontutor/`)
+
+27 Python programs decoded from the `pythontutor.com` links on index.html. These were
+never at risk (pythontutor encodes the whole program inside the link), but local
+copies are handy and they also run in `run.html?file=pythontutor/<name>.py`.

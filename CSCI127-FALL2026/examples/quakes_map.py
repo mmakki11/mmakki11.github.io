@@ -1,5 +1,4 @@
 # Source: index.html week 13 — "Turtle Quakes Demo"
-# Original (retiring 2026-08-31): https://trinket.io/python/c06d30262b
 # REQUIRES ASSETS: mapNASA.jpg (800x404 background) and allWeek2017Jan17.csv
 #   (the original trinket also bundled alternate data files:
 #    4.5week / 2.5week / 4.5month / 2.5month 2017Jan17.csv)
