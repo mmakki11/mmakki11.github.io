@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>WeMIPS Documentation (MIPS Emulator)</h1>
+<p>WeMIPS is an instruction-level emulator for the assembly language of the MIPS32 architecture. It is implemented in client-side JavaScript and HTML, and can thus be run in your own (JavaScript-capable and -enabled) webbrowser.</p>
+<p>While WeMIPS can be provided on-line (for example <a href="https://wemips.ralfgerlich.biz">here</a>), it is also possible to simply install it locally on your own computer and use it there.</p>
+<p>The WeMIPS Emulator was originally created by Eric Wooley and Ortal Yahdav, with additions and updates by Ralf Gerlich.</p>
+<h2>Installation Guide</h2>
+<ol>
+<li><a href="https://wemips.ralfgerlich.biz">View Online</a> for the version hosted by Ralf Gerlich, or <a href="https://wemips.dev.plumbing/WeMips.html">wemips.dev.plumbing for the version hosted on github pages</a> or clone <a href="https://github.com/ericwooley/WeMips">WeMIPS</a> somewhere on your computer.</li>
+<li>Open the top-most <em>WeMips.html</em> in your browser.</li>
+<li>You can now use WeMIPS!</li>
+</ol>
+<h2>User's Guide</h2>
+<h3>Running a Program</h3>
+<p>There are 2 ways to process your code: Stepping, and Running.</p>
+<ul>
+<li>The first way is to &quot;step&quot; through 1 line at a time.
+This can be accomplished by clicking the step button.
+When you step through your code, you will see that the editor will highlight specific lines.
+These lines indicate which lines the emulator is processing.
+The last line the emulator successfully ran will be highlighted in green.
+The next line to be run will be highlighted in grey.
+If the emulator runs into a MIPS error, it will be highlighted in red.
+You will notice as you step through your program that the last register, or stack or heap address changed, is also highlighted in green.
+See the Auto Switch feature for more details.</li>
+<li>The second way to process your code is to &quot;run&quot; it.
+This can be accomplished by clicking the run button.
+When you run your code, each line is successively run until your program is interrupted.
+Your program can be interrupted by errors, requests for input, or the completion of your code.</li>
+</ul>
+<h3>Features</h3>
+<h4>Constant Expressions</h4>
+<p>Wherever an immediate value is required, you can use expressions with operands such as addition, subtraction, etc., as long as the result is a constant value.</p>
+<p>For example, it is possible to use</p>
+<pre class="prettyprint source lang-asm"><code>addi $t0, $zero, (15+3*32)
+</code></pre>
+<p>Operators are evaluated according to their precedence, i.e., addition and subtraction have lower precedence than multiplication and the former are thus evaluated after the latter.
+In the following, operands are listed in decreasing order of precedence (i.e., operators further down in the list are evaluated after operators further up):</p>
+<ul>
+<li>Unary Plus (&quot;+&quot;), Unary Minus (&quot;-&quot;), Bitwise NOT (&quot;~&quot;), Logical NOT (&quot;!&quot;)</li>
+<li>Multiplication (&quot;*&quot;), Division (&quot;/&quot;), Remainder (&quot;%&quot;)</li>
+<li>Addition (&quot;+&quot;), Subtraction (&quot;-&quot;)</li>
+<li>Shift Left (&quot;&lt;&lt;&quot;), Arithmetic Shift Right (&quot;&gt;&gt;&quot;), Logical Shift Right (&quot;&gt;&gt;&gt;&quot;)</li>
+<li>Less Than (&quot;&lt;&quot;), Less Than or Equal (&quot;&lt;=&quot;), Greater Than or Equal (&quot;&gt;=&quot;), Greater Than (&quot;&gt;&quot;)</li>
+<li>Equals (&quot;==&quot;), Not Equals (&quot;!=&quot;)</li>
+<li>Bitwise AND (&quot;&amp;&quot;)</li>
+<li>Bitwise XOR (&quot;^&quot;)</li>
+<li>Bitwise OR (&quot;|&quot;)</li>
+<li>Logical AND (&quot;&amp;&amp;&quot;)</li>
+<li>Logical OR (&quot;||&quot;)</li>
+<li>Ternary Conditional Operator (&quot;cond?trueValue:falseValue&quot;)</li>
+</ul>
+<p>It is also possible to extract the lower and higher 16 bits of a constants, respectively, by using the <code>lo16</code> and <code>hi16</code> functions:</p>
+<pre class="prettyprint source lang-asm"><code>lui $t0, hi16(123456)
+addiu $t0, $t0, lo16(123456)
+</code></pre>
+<p>Numerical constants can be provided in decimal, hexadecimal, octal and binary:</p>
+<ul>
+<li>Hexadecimal numbers are specified with a <code>0x</code> or <code>0X</code> prefix, e.g., <code>0xabcd</code>. Case does not matter, i.e. <code>0XABcd</code> is the same as <code>0xabCD</code>.</li>
+<li>Octal numbers are prefixed by a <code>0</code>, e.g. <code>0775</code>.</li>
+<li>Binary numbers are specified with a <code>0b</code> or <code>0B</code> prefix, e.g. <code>0b101001010</code>.</li>
+<li>Decimal numbers are specified without any prefix. That also means that they may <em>not</em> start with a zero (<code>0</code>), otherwise they will be interepreted as octal (which will lead to errors if using non-octal digits).</li>
+</ul>
+<h4>Named Constants</h4>
+<p>It is possible to introduce named constants for use in expressions.
+Simply add a line of the form <code>symbol = expression</code>.
+You will be able to use the name <code>symbol</code> in other expressions after that assignment.</p>
+<pre class="prettyprint source lang-asm"><code>x = 312
+y = x*x
+
+lui $t0, hi16(y)
+addiu $t0, $t0, lo16(y)
+</code></pre>
+<h4>Go to Line Number</h4>
+<p><img src="images/image04.png" alt="Line Number Entry"></p>
+<p>You can type a line number and press Go to jump to a specific line of code.
+This will become the next line the mips engine will run.</p>
+<h4>Demos</h4>
+<p><img src="images/image05.png" alt="Demo Buttons"></p>
+<p>Tap the Show/Hide Demos button to reveal the list of built-in demos.
+Tap a demo (e.g. Hello World) to replace the existing MIPS code with the predefined MIPS code for that demo.
+Then press run (or step) to watch it execute.
+Most of them are self explanatory, or have comments that explain how they work.</p>
+<h4>Auto switch register/stack/heap/log tabs</h4>
+<p><img src="images/image07.png" alt="Auto switch register/stack/heap/log tabs"></p>
+<p>With this feature enabled, whenever a register (or heap/stack) is modified, the tab will automatically switch the corresponding tab so that you can see the relevant change.
+In the case where multiple things are modified at once, the last change will take precedence.</p>
+<h4>Emulation Options</h4>
+<p><img src="images/image08.png" alt="Emulation Options"></p>
+<p>By default, support for pseudo-instructions is active and pipeline emulation is inactive.
+To change that, use the emulation options below the text editor.</p>
+<p>Note that when pipeline emulation is activated, branch and jump instructions will be delayed by one instruction slot, and the instruction immediately following them will be executed before the first instruction at the target location.</p>
+<h4>Show stack/heap byte as number/ascii/binary</h4>
+<p>Sometimes it is useful to see the actual bits that compose a byte, or to see the corresponding ASCII character that is stored in the stack/heap.
+You can toggle between seeing any of these three values for a corresponding address in the stack/heap.</p>
+<h4>View registers</h4>
+<p><img src="images/image06.png" alt="Registers View"></p>
+<p>Up top we can toggle which registers are currently visible (S, T, A, or V registers).
+Underneath that, we can see a register's current value.
+Registers are initially populated with junk data until an instruction modifies them.
+In this screenshot, we can see that the $s0 register currently has the value 170.
+A register is composed of 32 bits, and can therefore hold 2<sup>32</sup> different values.</p>
+<h4>Modify Register Value</h4>
+<p><img src="images/image03.png" alt="Modify Register Value"></p>
+<p>You can click a register's value and overwrite its contents with whatever you want.</p>
+<h2>Available MIPS instructions</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Instructions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arithmetic Operations (signed)</td>
+<td><strong>ADD</strong>, <strong>ADDI</strong>, <strong>SUB</strong>, <strong>MULT</strong>, <strong>DIV</strong></td>
+</tr>
+<tr>
+<td>Arithmetic Operations (unsigned)</td>
+<td><strong>ADDU</strong>, <strong>ADDIU</strong>, <strong>SUBU</strong>, <strong>MULTU</strong>, <strong>DIVU</strong></td>
+</tr>
+<tr>
+<td>Comparison Instructions</td>
+<td><strong>SLT</strong>, <strong>SLTI</strong>, <strong>SLTU</strong>, <strong>SLTIU</strong></td>
+</tr>
+<tr>
+<td>Logical Operations</td>
+<td><strong>AND</strong>, <strong>ANDI</strong>, <strong>OR</strong>, <strong>ORI</strong>, <strong>XOR</strong>, <strong>XORI</strong>, <strong>NOR</strong></td>
+</tr>
+<tr>
+<td>Shift Operations</td>
+<td><strong>SLL</strong>, <strong>SLLV</strong>, <strong>SRL</strong>, <strong>SRLV</strong>, <strong>SRA</strong>, <strong>SRAV</strong></td>
+</tr>
+<tr>
+<td>Jump Instructions</td>
+<td>B, <strong>J</strong>, <strong>JAL</strong>, <strong>JR</strong>, <strong>JALR</strong></td>
+</tr>
+<tr>
+<td>Branch Instructions</td>
+<td><strong>BEQ</strong>, <strong>BNE</strong>, BGT, BGE, BLT, BLE</td>
+</tr>
+<tr>
+<td>Branch Instructions (unsigned)</td>
+<td>BGTU, BGEU, BLTU, BLEU</td>
+</tr>
+<tr>
+<td>Branch Instructions (zero comp.)</td>
+<td>BEQZ, BNEZ, <strong>BGTZ</strong>, <strong>BGEZ</strong>, <strong>BLTZ</strong>, <strong>BLEZ</strong></td>
+</tr>
+<tr>
+<td>Branch and Link Instructions</td>
+<td><strong>BGEZAL</strong>, <strong>BLTZAL</strong></td>
+</tr>
+<tr>
+<td>Register Transfer Instructions</td>
+<td><strong>MFHI</strong>, <strong>MFLO</strong>, <strong>MTHI</strong>, <strong>MTLO</strong></td>
+</tr>
+<tr>
+<td>Load Instructions</td>
+<td><strong>LB</strong>, <strong>LBU</strong>, <strong>LH</strong>, <strong>LHW</strong>, <strong>LW</strong>, <strong>LWL</strong>, <strong>LWR</strong>, <strong>LUI</strong></td>
+</tr>
+<tr>
+<td>Store Instructions</td>
+<td><strong>SB</strong>, <strong>SH</strong>, <strong>SW</strong>, <strong>SWL</strong>, <strong>SWR</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Instructions shown in <strong>bold</strong> are hardware instructions, all others are pseudo-instructions.</p>
+<p>Note that the floating point unit (FPU) is not implemented!</p>
+<h2>Available MIPS Syscalls</h2>
+<p>The syscalls supported are similar to the <a href="https://courses.missouristate.edu/kenvollmar/mars/help/syscallhelp.html">syscalls used by the MARS emulator</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>$v0 code</th>
+<th>Arguments</th>
+<th>Return Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Print Integer</td>
+<td>1</td>
+<td>$a0 = integer to print</td>
+<td></td>
+</tr>
+<tr>
+<td>Print String</td>
+<td>4</td>
+<td>$a0 = stack address of null-terminated string to print to console</td>
+<td></td>
+</tr>
+<tr>
+<td>Read Integer</td>
+<td>5</td>
+<td></td>
+<td>$v0 = contains integer read</td>
+</tr>
+<tr>
+<td>Read String</td>
+<td>8</td>
+<td>$a0 = address of input buffer<br/>$a1 = maximum number of characters to read (this will be one less than the<br/>allowed string since it needs space for the null terminator)</td>
+<td>$v0 = contains the length of the input string</td>
+</tr>
+<tr>
+<td>Allocate Heap Memory</td>
+<td>9</td>
+<td>$a0 = number of bytes to allocate</td>
+<td>$v0 = contains address of allocated memory</td>
+</tr>
+<tr>
+<td>Confirm Dialog</td>
+<td>50</td>
+<td>$a0 = address of null-terminated string that is the message to user</td>
+<td>$a0 contains value of user-chosen option<br/>0: OK<br/>1: Cancel</td>
+</tr>
+<tr>
+<td>Input Dialog Int</td>
+<td>51</td>
+<td>$a0 = address of null-terminated string that is the message to user</td>
+<td>$a0 contains int read<br/>$a1 contains status value<br/>0: OK status<br/>-1: input data cannot be correctly parsed<br/>-2: Cancel was chosen<br/>-3: OK was chosen but no data had been input into field</td>
+</tr>
+<tr>
+<td>Input Dialog String</td>
+<td>54</td>
+<td>$a0 = address of null-terminated string that is the message to user<br/>$a1 = address of input buffer<br/>$a2 = maximum number of characters to read</td>
+<td>$a1 contains status value<br/>0: OK status. Buffer contains the input string.<br/>-2: Cancel was chosen. No change to buffer.<br/>-3: OK was chosen but no data had been input into field. No change to buffer.<br/>-4: length of the input string exceeded the specified maximum. Buffer<br/>contains the maximum allowable input string plus a terminating null.</td>
+</tr>
+<tr>
+<td>Alert</td>
+<td>55</td>
+<td>$a0 = address of null-terminated string that is the message to user</td>
+<td></td>
+</tr>
+<tr>
+<td>Alert Int</td>
+<td>56</td>
+<td>$a0 = address of null-terminated string that is an information-type message<br/>to user<br/>$a1 = int value to display in string form after the first string</td>
+<td></td>
+</tr>
+<tr>
+<td>Alert String</td>
+<td>59</td>
+<td>$a0 = address of null-terminated string that is an information-type message<br/>to user<br/>$a1 = address of null-terminated string to display after the first<br/>string</td>
+<td></td>
+</tr>
+<tr>
+<td>Generate Save String Code</td>
+<td>60</td>
+<td>$a0 = stack address of null-terminated string to generate code for</td>
+<td></td>
+</tr>
+<tr>
+<td>Binary -&gt; Decimal</td>
+<td>61</td>
+<td>$a0 = stack address of binary string</td>
+<td></td>
+</tr>
+<tr>
+<td>Decimal -&gt; Binary</td>
+<td>62</td>
+<td>$a0 = decimal number to convert<br/>$a1 = number of chars to output<br/>$a2 = size of each block to output</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Other Notes</h2>
+<h3>Stack</h3>
+<p>The stack is byte-addressable.
+Each time you start the emulator, the frame pointer will be initialized to a random address less than 2<sup>32</sup>, in order to simulate the fact that when you first run your program, the frame pointer may be at any given value.</p>
+<p><img src="images/image01.png" alt="Black Arrow"></p>
+<p>The black arrow is used to show where $sp is currently pointing to.</p>
+<p><img src="images/image02.png" alt="Show Relative Address"></p>
+<p>You can click show relative address, in order to show relative addresses from the frame pointer rather than having to look at large numbers.</p>
+<p><img src="images/image00.png" alt="Editing the Stack"></p>
+<p>You can change a value in the stack by clicking it to edit it.
+You can also view it in several modes, as an integer, in binary, and it’s ascii representation (‘None’ if no ascii character is available).
+Viewing the stack in a different mode doesn’t mean you can’t edit it.
+You can edit it in binary mode to save a binary representation, as you could with integers and ascii.</p>
+<h3>Heap</h3>
+<p>The heap is byte-addressable.
+It can be extended using the syscall 9 (see the table above).</p>
+<p>Contents of the heap can be changed as for the stack, and representation (decimal/ascii/binary) can be changed as well.</p>
+<h2>Developer Notes</h2>
+<h3>Installing Node packages</h3>
+<p>WeMIPS uses <a href="https://www.npmjs.com/">npm</a> as its package manager, which comes with <a href="https://nodejs.org/en">node.js</a>.</p>
+<p>To install the required packages, run <code>npm install</code> or - for a clean installation - <code>npm ci</code>.</p>
+<h3>Building the documentation</h3>
+<p>The documentation is built using <a href="https://jsdoc.app/">jsdoc</a>, which will be installed by npm using the commands shown above.</p>
+<p>In order to rebuild the documentation, run <code>npm run build-doc</code> from the root of the source directory.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BigEndianAccess.html">BigEndianAccess</a></li><li><a href="CombinedMemory.html">CombinedMemory</a></li><li><a href="global.html#MemoryBase">MemoryBase</a></li><li><a href="Parser.Error.html">Error</a></li><li><a href="Parser.ExprParser.html">ExprParser</a></li><li><a href="Parser.InstructionParser.html">InstructionParser</a></li><li><a href="Parser.Lexer.html">Lexer</a></li><li><a href="Parser.LexerError.html">LexerError</a></li><li><a href="Parser.OperandParser.html">OperandParser</a></li><li><a href="Parser.ParseError.html">ParseError</a></li><li><a href="Parser.Token.html">Token</a></li><li><a href="Parser.TokenStream.html">TokenStream</a></li><li><a href="Parser.UnexpectedTokenError.html">UnexpectedTokenError</a></li><li><a href="Parser.UnknownInstructionError.html">UnknownInstructionError</a></li><li><a href="Parser.UnknownSymbolError.html">UnknownSymbolError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deepEqual">deepEqual</a></li><li><a href="global.html#equal">equal</a></li><li><a href="global.html#mipsCode">mipsCode</a></li><li><a href="global.html#mipsEmulator">mipsEmulator</a></li><li><a href="global.html#notDeepEqual">notDeepEqual</a></li><li><a href="global.html#notEqual">notEqual</a></li><li><a href="global.html#notPropEqual">notPropEqual</a></li><li><a href="global.html#notStrictEqual">notStrictEqual</a></li><li><a href="global.html#ok">ok</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#propEqual">propEqual</a></li><li><a href="global.html#regName">regName</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#strictEqual">strictEqual</a></li><li><a href="global.html#val">val</a></li><li><a href="global.html#writable">writable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat May 20 2023 20:46:25 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

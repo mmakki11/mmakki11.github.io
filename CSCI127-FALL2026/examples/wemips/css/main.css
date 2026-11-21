@@ -1,0 +1,54 @@
+h3{
+    margin: 0
+}
+li{
+    list-style: none;
+    margin:2px 0 2px 0; 
+}
+#main {
+    margin-top: 20px
+}
+.row {margin-top: 5px; margin-bottom: 5px}
+.regSpacer{
+    margin: 0px 10px 0px 10px;
+    width: 100px;
+    text-align: right;
+    display:  inline-block;
+}
+.memSpacer{
+    margin: 0px 20px 0px 10px;
+    text-align: right;
+    min-width: 100px;
+    display:  inline-block;
+}
+.memAddr{
+    /*width: 100;*/
+    text-align: right;
+}
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto !important; 
+}
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+.lastLineNoRun, .lastRegChanged {background-color:#61FA9C; }
+.nextLine {background-color:#dadae3; }
+.errorLine{background-color: red;}
+.memAddrReal, .memAddrRelative {display: inline-block; text-align: right; min-width: 60px;}
+.lightGreyBG{background-color: #DDDDDD}
+#stackRep{height: 300px; overflow: auto;}
+#heapRep{height: 300px; overflow: auto;}
+#log{height: 300px; overflow: auto;}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+.tab-pane{margin: 10px;}

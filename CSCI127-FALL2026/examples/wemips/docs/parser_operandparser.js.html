@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: parser/operandparser.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: parser/operandparser.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** A parser for MIPS operands
+ * @constructor
+ * @param {Parser.TokenStream}  tokenStream The stream of tokens to parse
+ * @param {array} symbols An array of pre-defined symbols
+ */
+Parser.OperandParser = function(tokenStream, symbols) {
+    this.tokenStream = tokenStream;
+    this.exprParser = new Parser.ExprParser(tokenStream, symbols);
+    this.mipsEmulator = new MipsEmulator();
+
+    /** Parse a register operand
+     * @returns {string}  The name of the register
+     * @throws {Parser.ParseError} The input must start with a register
+     */
+    this.parseRegister = function() {
+        let token = this.tokenStream.consume(Parser.TokenType.Register);
+        if (this.mipsEmulator.isValidRegister(token.value)) {
+            return token.value;
+        } else {
+            throw new Parser.ParseError('Not a valid register', token);
+        }
+    }
+
+    /** Parse a writable register operand
+     * 
+     * Like {@link Parser.OperandParser.parseRegister}, but the register must be writable.
+     * 
+     * @returns {string}  The name of the register
+     * @throws {Parser.ParseError} The input must start with a writable register
+     */
+    this.parseWritableRegister = function() {
+        let token = this.tokenStream.consume(Parser.TokenType.Register);
+        if (this.mipsEmulator.isValidWritableRegister(token.value)) {
+            return token.value;
+        } else {
+            throw new Parser.ParseError('Not a writable register', token);
+        }
+    }
+
+    /** Parse a label
+     * 
+     * A label is a simple identifier.
+     * 
+     * @returns {string}  The name of the label
+     * @throws {Parser.ParseError} The input must start with a label
+     */
+    this.parseLabel = function() {
+        let token = this.tokenStream.consume(Parser.TokenType.Identifier);
+        return token.value;
+    }
+
+    /** Parse a signed constant expression
+     * Parses a constant expression and checks whether its value is representable as a
+     * two's-complement integer with the given number of bits.
+     * 
+     * @param {number} bits  The number of bits available (including sign bit) for the number
+     * @returns {number}  The value of the constant
+     * @throws {Parser.ParseError} The value must be representable as a two's-complement integer with the given number of bits
+     */
+    this.parseSignedConstant = function(bits) {
+        let value = this.exprParser.parseExpression();
+        let minValue = MIPS.minSignedValue(bits);
+        let maxValue = MIPS.maxSignedValue(bits);
+        if (minValue &lt;= value &amp;&amp; value &lt;= maxValue) {
+            return value;
+        } else {
+            throw new Parser.ParseError(value+' cannot be expressed as '+bits+'-bit signed value');
+        }
+    }
+
+    /** Parse an unsigned constant expression
+     * Parses a constant expression and checks whether its value is representable as an
+     * unsigned integer with the given number of bits.
+     * 
+     * @param {number} bits  The number of bits available for the number
+     * @returns {number}  The value of the constant
+     * @throws {Parser.ParseError} The value must be representable as an unsigned integer with the given number of bits
+     */
+    this.parseUnsignedConstant = function(bits) {
+        let value = this.exprParser.parseExpression();
+        let minValue = MIPS.minUnsignedValue(bits);
+        let maxValue = MIPS.maxUnsignedValue(bits);
+        if (minValue &lt;= value &amp;&amp; value &lt;= maxValue) {
+            return value;
+        } else {
+            throw new Parser.ParseError(value+' cannot be expressed as '+bits+'-bit unsigned value');
+        }
+    }
+
+    /** Parse a constant expression
+     * Parses a constant expression and checks whether its value is representable as either an
+     * unsigned or a two's complement integer with the given number of bits.
+     * 
+     * @param {number} bits  The number of bits available for the number
+     * @returns {number}  The value of the constant
+     * @throws {Parser.ParseError} The value must be representable as an unsigned or two's complement integer with the given number of bits
+     */
+    this.parseConstant = function(bits) {
+        let value = this.exprParser.parseExpression();
+        let minValue = MIPS.minSignedValue(bits);
+        let maxValue = MIPS.maxUnsignedValue(bits);
+        if (minValue &lt;= value &amp;&amp; value &lt;= maxValue) {
+            return value;
+        } else {
+            throw new Parser.ParseError(value+' cannot be expressed as '+bits+'-bit value');
+        }
+    }
+
+    /** Parse an address for loading or storing.
+     * A load/store-address consists of an (optional) signed offset and a register in parentheses (`imm($rs)`).
+     * 
+     * @param {number} bits  The number of bits allowed for the offset
+     * @return {Object} A dictionary containing the offset in key `imm` and the register name in key  `$rs`.
+     */
+    this.parseLoadStoreAddress = function(bits) {
+        let that = this;
+        let imm = this.tokenStream.tryParsing(
+            function() { return that.parseSignedConstant(bits); },
+            0
+        );
+        let reg = this.tokenStream.tryParsing(
+            function() {
+                that.tokenStream.consume(Parser.TokenType.LParen);
+                let reg = that.parseRegister();
+                that.tokenStream.consume(Parser.TokenType.RParen);
+                return reg;
+            },
+            '$zero'
+        );
+        return {
+            'imm': imm,
+            '$rs': reg
+        };
+}
+}
+
+/** Create an {@link Parser.OperandParser} from a string
+ * @param {string}  input The string to parse
+ * @returns {Parser.OperandParser} The operand parser for parsing the string
+ */
+Parser.operandParserFromString = function(text) {
+    let tokenStream = Parser.tokenStreamFromString(text);
+    return new Parser.OperandParser(tokenStream);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BigEndianAccess.html">BigEndianAccess</a></li><li><a href="CombinedMemory.html">CombinedMemory</a></li><li><a href="global.html#MemoryBase">MemoryBase</a></li><li><a href="Parser.Error.html">Error</a></li><li><a href="Parser.ExprParser.html">ExprParser</a></li><li><a href="Parser.InstructionParser.html">InstructionParser</a></li><li><a href="Parser.Lexer.html">Lexer</a></li><li><a href="Parser.LexerError.html">LexerError</a></li><li><a href="Parser.OperandParser.html">OperandParser</a></li><li><a href="Parser.ParseError.html">ParseError</a></li><li><a href="Parser.Token.html">Token</a></li><li><a href="Parser.TokenStream.html">TokenStream</a></li><li><a href="Parser.UnexpectedTokenError.html">UnexpectedTokenError</a></li><li><a href="Parser.UnknownInstructionError.html">UnknownInstructionError</a></li><li><a href="Parser.UnknownSymbolError.html">UnknownSymbolError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deepEqual">deepEqual</a></li><li><a href="global.html#equal">equal</a></li><li><a href="global.html#mipsCode">mipsCode</a></li><li><a href="global.html#mipsEmulator">mipsEmulator</a></li><li><a href="global.html#notDeepEqual">notDeepEqual</a></li><li><a href="global.html#notEqual">notEqual</a></li><li><a href="global.html#notPropEqual">notPropEqual</a></li><li><a href="global.html#notStrictEqual">notStrictEqual</a></li><li><a href="global.html#ok">ok</a></li><li><a href="global.html#onChange">onChange</a></li><li><a href="global.html#propEqual">propEqual</a></li><li><a href="global.html#regName">regName</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#strictEqual">strictEqual</a></li><li><a href="global.html#val">val</a></li><li><a href="global.html#writable">writable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat May 20 2023 20:46:25 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

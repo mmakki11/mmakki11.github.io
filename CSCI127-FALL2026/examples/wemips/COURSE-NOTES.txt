@@ -1,0 +1,7 @@
+Self-hosted WeMips for CSCI 127 Fall 2026
+Upstream: https://github.com/ralfgerlich/WeMips (master)
+Reference: https://mips.tinycomputers.io/WeMips.html
+The reference HTML matched the upstream HTML when downloaded.
+Original credits, public-domain LICENSE, library notices, documentation and unit tests retained.
+Course changes: navigation/header and page title; share/embed links use the current host and path.
+No build step or backend is required.
